@@ -45,5 +45,26 @@ namespace ClinkedIn.DataAccess
         {
             return _clinkers.FirstOrDefault(c => c.Id == id);
         }
+
+        public List<Clinker> GetAll()
+        {
+            return _clinkers;
+        }
+
+        private static List<Clinker> sameInterestClinkers = new List<Clinker>();
+        public List<Clinker> clinkersByInterest(string interest)
+        {
+            //var matchingClinkers = _clinkers.GroupBy(clinker =>
+            //clinker.Interests).FirstOrDefault(interest);
+
+            var matchingClinkers = _clinkers.Where(c => c.Interests.Contains(interest)).ToList();
+
+            foreach (var matchingClinker in matchingClinkers)
+            {
+                sameInterestClinkers.Add(matchingClinker);
+            }
+            return sameInterestClinkers;
+        }
+
     }
 }
