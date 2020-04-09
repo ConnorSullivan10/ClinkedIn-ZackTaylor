@@ -24,11 +24,19 @@ namespace ClinkedIn.Controllers
                 _repository.Add(clinkerToAdd);
                 return Created("", clinkerToAdd);
             }
-            //else
-            //{
-            //    var updatedClinker = _repository.Update(clinkerToAdd);
-            //    return Ok(clinkerToAdd);
-            //}
+            else
+            {
+                //var updatedClinker = _repository.Update(clinkerToAdd);
+                //return Ok(clinkerToAdd);
+                return NotFound("Yo this didn't work");
+            }
+        }
+        [HttpGet]
+        public IActionResult GetAllClinkers()
+        {
+            var allClinkers = _repository.GetAll();
+
+            return Ok(allClinkers);
         }
     }
 }
