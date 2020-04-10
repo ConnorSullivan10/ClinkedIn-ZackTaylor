@@ -31,6 +31,7 @@ namespace ClinkedIn.Controllers
                 return NotFound("Yo this didn't work");
             }
         }
+
         [HttpGet]
         public IActionResult GetAllClinkers()
         {
@@ -38,5 +39,19 @@ namespace ClinkedIn.Controllers
 
             return Ok(allClinkers);
         }
+
+        [HttpGet("{service}/clinkers")]
+        public IActionResult GetAllClinkersByService(string service)
+        {
+            var clinkersByService = _repository.showAllClinkersByService(service);
+
+            return Ok(clinkersByService);
+        }
+
+        //[HttpPut]
+        //public IActionResult RequestService()
+        //{
+        //    this should allow you to request a service from another inmate or they should be able to request a service from me
+        //}
     }
 }
