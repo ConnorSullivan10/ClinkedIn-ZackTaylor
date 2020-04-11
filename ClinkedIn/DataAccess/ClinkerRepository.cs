@@ -109,7 +109,6 @@ namespace ClinkedIn.DataAccess
             });
         }
 
-
         public List<Clinker> showAllClinkersByService(string service)
         {
             var filteredListofServiceClinkers = _clinkers.Where(clinker => clinker.Services.Any(s => s.Service == service));
@@ -180,5 +179,31 @@ namespace ClinkedIn.DataAccess
             var remainingFriends = currentUser.Friends;
             return remainingFriends;
         }
+
+        public List<Clinker> getEnemiesOfClinker(int id)
+        {
+            var userClinker = _clinkers.FirstOrDefault(c => c.Id == id);
+            return userClinker.Enemies;
+        }
+
+        public List<Clinker> AddEnemy(Clinker enemyToAdd, int userId)
+        {
+            var currentUser = _clinkers.FirstOrDefault(c => c.Id == userId);
+            currentUser.Enemies.Add(enemyToAdd);
+            return currentUser.Enemies;
+        }
+
+        public List<Clinker> DeleteEnemy(Clinker clinkerEnemyToDelete, int userId)
+        {
+            var currentUser = _clinkers.FirstOrDefault(c => c.Id == userId);
+            var enemyToDelete = currentUser.Enemies.FirstOrDefault(e => e.Id == clinkerEnemyToDelete.Id);
+            currentUser.Enemies.Remove(enemyToDelete);
+            currentUser.Friends.Add(enemyToDelete);
+            var remainingEnemies = currentUser.Enemies;
+            return remainingEnemies;
+        }
+
+
+
     }
 }
