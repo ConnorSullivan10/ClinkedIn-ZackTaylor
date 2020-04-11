@@ -57,6 +57,15 @@ namespace ClinkedIn.Controllers
             return Ok(clinkerFriends);
         }
 
+
+        // Get Friends of Friends
+        [HttpGet("{id}/friends/friendsOfFriends")]
+        public IActionResult GetClinkersFriendsOfFriends(int id)
+        {
+            var clinkerFriendsofFriends = _repository.getFriendsOfFriends(id);
+            return Ok(clinkerFriendsofFriends);
+        }
+
         //api/clinker/addfriend/2
         [HttpPost("{currentUserId}/friends")]
         public IActionResult AddClinkerToFriendsList(Clinker friendToAdd, int currentUserId)
