@@ -48,6 +48,34 @@ namespace ClinkedIn.Controllers
             return Ok(clinkersByService);
         }
 
+        [HttpGet("{id}/friends")]
+        public IActionResult GetClinkersFriendsById(int id)
+        {
+            var clinkerFriends = _repository.getFriendsOfClinker(id);
+
+            return Ok(clinkerFriends);
+        }
+
+
+        //{
+        //curruser
+        //}
+        //api/clinker/addfriend/2
+        [HttpPost("{currentUserId}/friends")]
+        public IActionResult AddClinkerToFriendsList(Clinker friendToAdd, int currentUserId)
+        {
+            var friendsListPlusNewFriend = _repository.AddFriend(friendToAdd, currentUserId);
+            return Ok(friendsListPlusNewFriend);
+        }
+
+        [HttpDelete("{currentUserId}/friends")]
+        public IActionResult DeleteClinkerFromFriends(Clinker friendToDelete, int currentUserId)
+        {
+            var friendsListMinusBadFriend = _repository.DeleteFriend(friendToDelete, currentUserId);
+            return Ok(friendsListMinusBadFriend);
+        }
+
+
         //[HttpPut]
         //public IActionResult RequestService()
         //{

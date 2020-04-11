@@ -23,6 +23,59 @@ namespace ClinkedIn.DataAccess
                         IsRequested = false
                     }
                 },
+                Friends =
+                {
+                    new Clinker()
+                    {
+                        Id = 3,
+                        Name = "Jakub",
+                        Interests = {"tattoos", "dad-ing"},
+                        Services =
+                        {
+                            new LineItem
+                            {
+                                Service = "painting",
+                                IsRequested = false
+                            }
+                        },
+                    },
+                    new Clinker()
+                    {
+                        Id = 4,
+                        Name = "Zoeee",
+                        Interests = {"pies", "sarcasm"},
+                        Services =
+                        {
+                            new LineItem
+                            {
+                                Service = "teaching",
+                                IsRequested = false
+                            },
+                            new LineItem
+                            {
+                                Service = "coding",
+                                IsRequested = false
+                            }
+                        },
+                    },
+                },
+                Enemies =
+                {
+                    new Clinker()
+                    {
+                        Id = 5,
+                        Name = "Guy Fieri",
+                        Interests = {"excess", "hair-dye"},
+                        Services =
+                        {
+                            new LineItem
+                            {
+                                Service = "cooking",
+                                IsRequested = false
+                            }
+                        }
+                    }
+                }
             },
 
              new Clinker()
@@ -49,7 +102,7 @@ namespace ClinkedIn.DataAccess
 
         public void addServiceToClinker(Clinker selectedClinker, string skill)
         {
-            selectedClinker.Services.Add(new LineItem 
+            selectedClinker.Services.Add(new LineItem
             {
                 Service = skill,
                 IsRequested = false
@@ -59,19 +112,8 @@ namespace ClinkedIn.DataAccess
 
         public List<Clinker> showAllClinkersByService(string service)
         {
-            // Service.service should reference that the string inside the LineItem matches the inputted string
-
-            //var filteredListofServiceClinkers = serviceClinker.Services.Where(c => c.Service == service);
             var filteredListofServiceClinkers = _clinkers.Where(clinker => clinker.Services.Any(s => s.Service == service));
             return filteredListofServiceClinkers.ToList();
-
-            //var luckyClinker = filteredListofServiceClinkers.First(); // business logic
-            //var luckyClinkersService = luckyClinker.Services.Single(s => s.Service == service);
-
-            //Below code should access the matching service from the selected service, and change it's 
-            //isRequested value to true
-            //luckyClinkersService.IsRequested = true;
-            //now create a method that calls this in the controller
         }
 
         //public Clinker Update(Clinker clinker)
@@ -116,5 +158,27 @@ namespace ClinkedIn.DataAccess
             return sameInterestClinkers;
         }
 
+        public List<Clinker> getFriendsOfClinker(int id)
+        {
+            var userClinker = _clinkers.FirstOrDefault(c => c.Id == id);
+            return userClinker.Friends;
+        }
+
+        public List<Clinker> AddFriend(Clinker friendToAdd, int userId)
+        {
+            var currentUser = _clinkers.FirstOrDefault(c => c.Id == userId);
+            currentUser.Friends.Add(friendToAdd);
+            return currentUser.Friends;
+        }
+
+        public List<Clinker> DeleteFriend(Clinker clinkerToDelete, int userId)
+        {
+            var currentUser = _clinkers.FirstOrDefault(c => c.Id == userId);
+            var friendToDelete = currentUser.Friends.FirstOrDefault(f => f.Id == clinkerToDelete.Id);
+            currentUser.Friends.Remove(friendToDelete);
+            currentUser.Enemies.Add(friendToDelete);
+            var remainingFriends = currentUser.Friends;
+            return remainingFriends;
+        }
     }
 }
