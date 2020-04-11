@@ -48,6 +48,7 @@ namespace ClinkedIn.Controllers
             return Ok(clinkersByService);
         }
 
+        // Friend Methods
         [HttpGet("{id}/friends")]
         public IActionResult GetClinkersFriendsById(int id)
         {
@@ -56,10 +57,6 @@ namespace ClinkedIn.Controllers
             return Ok(clinkerFriends);
         }
 
-
-        //{
-        //curruser
-        //}
         //api/clinker/addfriend/2
         [HttpPost("{currentUserId}/friends")]
         public IActionResult AddClinkerToFriendsList(Clinker friendToAdd, int currentUserId)
@@ -73,6 +70,29 @@ namespace ClinkedIn.Controllers
         {
             var friendsListMinusBadFriend = _repository.DeleteFriend(friendToDelete, currentUserId);
             return Ok(friendsListMinusBadFriend);
+        }
+
+        // Enemy Methods
+        [HttpGet("{id}/enemies")]
+        public IActionResult GetClinkersEnemiesById(int id)
+        {
+            var clinkerEnemies = _repository.getEnemiesOfClinker(id);
+
+            return Ok(clinkerEnemies);
+        }
+
+        [HttpPost("{currentUserId}/enemies")]
+        public IActionResult AddClinkerToEnemiesList(Clinker enemyToAdd, int currentUserId)
+        {
+            var enemiesListPlusNewEnemy = _repository.AddEnemy(enemyToAdd, currentUserId);
+            return Ok(enemiesListPlusNewEnemy);
+        }
+
+        [HttpDelete("{currentUserId}/enemies")]
+        public IActionResult DeleteClinkerFromEnemies(Clinker enemyToDelete, int currentUserId)
+        {
+            var enemiesListMinusGoodEnemy = _repository.DeleteEnemy(enemyToDelete, currentUserId);
+            return Ok(enemiesListMinusGoodEnemy);
         }
 
 
