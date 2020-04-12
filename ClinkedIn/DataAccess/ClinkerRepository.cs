@@ -38,6 +38,37 @@ namespace ClinkedIn.DataAccess
                                 IsRequested = false
                             }
                         },
+                        Friends =
+                        {
+                            new Clinker()
+                            {
+                                Id = 5,
+                                Name = "Arnold",
+                                Interests = {"lifting", "flexing"},
+                                Services =
+                                {
+                                    new LineItem
+                                    {
+                                        Service = "pumpYouUp",
+                                        IsRequested = false
+                                    }
+                                },
+                            },
+                            new Clinker
+                            {
+                                Id = 6,
+                                Name = "Billy",
+                                Interests = {"cookies", "baking"},
+                                Services =
+                                {
+                                    new LineItem
+                                    {
+                                        Service = "Ballin' Out",
+                                        IsRequested = false
+                                    }
+                                },
+                            },
+                        },
                     },
                     new Clinker()
                     {
@@ -57,6 +88,37 @@ namespace ClinkedIn.DataAccess
                                 IsRequested = false
                             }
                         },
+                        Friends =
+                        {
+                            new Clinker()
+                            {
+                                Id = 7,
+                                Name = "Michael",
+                                Interests = {"stuff", "more stuff"},
+                                Services =
+                                {
+                                    new LineItem
+                                    {
+                                        Service = "beingAwesome",
+                                        IsRequested = false
+                                    }
+                                },
+                            },
+                            new Clinker()
+                            {
+                                Id = 8,
+                                Name = "Greg",
+                                Interests = {"star wars", "the force"},
+                                Services =
+                                {
+                                    new LineItem
+                                    {
+                                        Service = "Teaching",
+                                        IsRequested = false
+                                    }
+                                }
+                            }
+                        }
                     },
                 },
                 Enemies =
@@ -163,6 +225,19 @@ namespace ClinkedIn.DataAccess
             return userClinker.Friends;
         }
 
+        public List<Clinker> getFriendsOfFriends(int id)
+        {
+            var userClinker = _clinkers.FirstOrDefault(c => c.Id == id);
+            var clinkersFriends = userClinker.Friends;
+            var friendsOfFriends = new List<Clinker>();
+            foreach (var clinkersFriend in clinkersFriends)
+            {
+                friendsOfFriends.AddRange(clinkersFriend.Friends);
+            }
+
+            return friendsOfFriends;
+        }
+        
         public List<Clinker> AddFriend(Clinker friendToAdd, int userId)
         {
             var currentUser = _clinkers.FirstOrDefault(c => c.Id == userId);
