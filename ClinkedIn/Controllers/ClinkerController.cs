@@ -61,7 +61,7 @@ namespace ClinkedIn.Controllers
         [HttpGet("{id}/friends/friendsOfFriends")]
         public IActionResult GetClinkersFriendsOfFriends(int id)
         {
-            var clinkerFriendsOfFriends = _repository.getFriendsOfFriens(id);
+            var clinkerFriendsOfFriends = _repository.getFriendsOfFriends(id);
             return Ok(clinkerFriendsOfFriends);
         }
 
