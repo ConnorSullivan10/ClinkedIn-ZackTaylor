@@ -32,6 +32,25 @@ namespace ClinkedIn.Controllers
             }
         }
 
+        [HttpGet("{clinkerId}/interests")]
+        public IActionResult ReturnClinkerInterests(int clinkerId)
+        {
+            var selectedClinker = _repository.GetById(clinkerId);
+
+            return Ok(selectedClinker.Interests);
+        }
+        
+
+        [HttpPost("{clinkerId}/interests")]
+        public IActionResult AddClinkerInterest(int clinkerId, [FromBody] string interest)
+        {
+            var selectedClinker = _repository.GetById(clinkerId);
+            _repository.AddInterest(selectedClinker, interest);
+
+            return Ok($"Congratulations! You are now interested in {interest}.");
+        }
+
+
         [HttpGet]
         public IActionResult GetAllClinkers()
         {
