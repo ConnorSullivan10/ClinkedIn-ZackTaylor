@@ -177,14 +177,30 @@ namespace ClinkedIn.DataAccess
             return filteredListofServiceClinkers.ToList();
         }
 
-        //public Clinker Update(Clinker clinker)
-        //{
-        //    var clinkerToUpdate = GetById(clinker.Id);
+        public Clinker AddInterest(Clinker clinker, string interest)
+        {
+            var clinkerToUpdate = clinker;
+            var doesContain = clinker.Interests.Contains(interest);
+            if (doesContain != true)
+            {
+                clinkerToUpdate.Interests.Add(interest);
+            }
+            else
+            {
+                 throw new Exception( "This Interest already exists. You're already interested in this.");
+            }
 
-        //    clinkerToUpdate.NumberInStock += pickle.NumberInStock;
+            // var matchingInterest = clinkerToUpdate.Interests.Where(i => i == interest);
+            // foreach (var item in matchingInterest)
+            // {
+                
+            //    if (clinkerToUpdate.Interests.Contains(item))
+            //    {
 
-        //    return clinkerToUpdate;
-        //}
+            //    }
+            // }
+            return clinkerToUpdate;
+        }
 
         //var clinkerId = _clinkers.FirstOrDefault(c => c.Id == id);
 
